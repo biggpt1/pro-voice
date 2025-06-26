@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ПРО ГОЛОС - Курс по технике речи от Влады Мамедовой</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Блок 1: Название курса + цена -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-photo">
+                    <img src="images/vlada-photo.jpg" alt="Влада Мамедова" class="hero-image">
+                </div>
+                <div class="hero-text">
+                    <h1 class="hero-title">ПРО ГОЛОС</h1>
+                    <p class="hero-subtitle">Курс по технике речи от Влады Мамедовой</p>
+                    <div class="hero-price">
+                        <span class="price-from">от</span>
+                        <span class="price-value">4 499 ₽</span>
+                        <span class="price-old">7 499 ₽</span>
+                    </div>
+                    <button class="cta-button" onclick="openModal()">Записаться на курс</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Блок 2: Для кого курс -->
+    <section class="section-white">
+        <div class="container">
+            <h2 class="section-title">Для кого подходит курс</h2>
+            <div class="target-audience">
+                <div class="audience-item">
+                    <div class="audience-icon">🎯</div>
+                    <p>Для тех, кто хочет говорить ярко и уверенно</p>
+                </div>
+                <div class="audience-item">
+                    <div class="audience-icon">👨‍🏫</div>
+                    <p>Для экспертов, ведущих, преподавателей</p>
+                </div>
+                <div class="audience-item">
+                    <div class="audience-icon">💬</div>
+                    <p>Для всех, кто устал «съедать» звуки и молчать, когда хочется говорить</p>
+                </div>
+            </div>
+            <button class="cta-button-secondary" onclick="openModal()">Это про меня!</button>
+        </div>
+    </section>
+
+    <!-- Блок 3: За 1 месяц получаете -->
+    <section class="section-blue">
+        <div class="container">
+            <h2 class="section-title-white">За 1 месяц ты получишь</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🗣️</div>
+                    <h3>Четкую дикцию</h3>
+                    <p>Без каши во рту, мямлений и слов-паразитов</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎵</div>
+                    <h3>Уверенный гибкий голос</h3>
+                    <p>Приятный тембр, грудное звучание</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🫁</div>
+                    <h3>Правильное дыхание</h3>
+                    <p>Навык диафрагмально-реберного дыхания – основа сильной речи</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">💡</div>
+                    <h3>Ясное выражение мыслей</h3>
+                    <p>Четко, ясно и ярко – так, чтобы невозможно было оторваться от твоей речи</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🕊️</div>
+                    <h3>Свободу в общении</h3>
+                    <p>Без страха, зажимов, перегрузок и нервов</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">✨</div>
+                    <h3>Внутренние изменения</h3>
+                    <p>Уходит тревожность, повышается самооценка, энергия не утекает в напряжение</p>
+                </div>
+            </div>
+            <button class="cta-button-white" onclick="openModal()">Хочу так же!</button>
+        </div>
+    </section>
+
+    <!-- Блок 4: Запросы (карточки с листанием) -->
+    <section class="section-white">
+        <div class="container">
+            <h2 class="section-title">Если ты узнаешь себя в этих запросах, то тебе скорее надо записаться на курс</h2>
+            <div class="requests-carousel">
+                <div class="carousel-container">
+                    <div class="carousel-track" id="requestsTrack">
+                        <div class="request-card">
+                            <div class="card-number">01</div>
+                            <div class="quote-mark">"</div>
+                            <p>Скоро собеседование/презентация — хочу звучать уверенно</p>
+                        </div>
+                        <div class="request-card">
+                            <div class="card-number">02</div>
+                            <div class="quote-mark">"</div>
+                            <p>Провожу вебинары — не нравится, как говорю</p>
+                        </div>
+                        <div class="request-card">
+                            <div class="card-number">03</div>
+                            <div class="quote-mark">"</div>
+                            <p>Работаю с клиентами — голос быстро устаёт</p>
+                        </div>
+                        <div class="request-card">
+                            <div class="card-number">04</div>
+                            <div class="quote-mark">"</div>
+                            <p>Хочу вести блог/говорить в сторис — но стесняюсь</p>
+                        </div>
+                        <div class="request-card">
+                            <div class="card-number">05</div>
+                            <div class="quote-mark">"</div>
+                            <p>Иду на сцену — и мандраж, дыхание сбивается</p>
+                        </div>
+                        <div class="request-card">
+                            <div class="card-number">06</div>
+                            <div class="quote-mark">"</div>
+                            <p>Выступаю на мероприятиях — но без эмоций, скучно</p>
+                        </div>
+                        <div class="request-card">
+                            <div class="card-number">07</div>
+                            <div class="quote-mark">"</div>
+                            <p>Я заикаюсь/спотыкаюсь, когда говорю</p>
+                        </div>
+                        <div class="request-card">
+                            <div class="card-number">08</div>
+                            <div class="quote-mark">"</div>
+                            <p>Боюсь выступать перед людьми</p>
+                        </div>
+                        <div class="request-card">
+                            <div class="card-number">09</div>
+                            <div class="quote-mark">"</div>
+                            <p>Голос слабый, меня не слышат</p>
+                        </div>
+                        <div class="request-card">
+                            <div class="card-number">10</div>
+                            <div class="quote-mark">"</div>
+                            <p>Я говорю быстро и невнятно</p>
+                        </div>
+                        <div class="request-card">
+                            <div class="card-number">11</div>
+                            <div class="quote-mark">"</div>
+                            <p>Слишком много "эээ", "ну" — раздражает</p>
+                        </div>
+                        <div class="request-card">
+                            <div class="card-number">12</div>
+                            <div class="quote-mark">"</div>
+                            <p>Хочу говорить уверенно и убедительно</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-controls">
+                    <button class="carousel-btn prev" onclick="moveCarousel(-1)">‹</button>
+                    <div class="carousel-dots" id="carouselDots"></div>
+                    <button class="carousel-btn next" onclick="moveCarousel(1)">›</button>
+                </div>
+            </div>
+            <button class="cta-button-secondary" onclick="openModal()">Да, это про меня!</button>
+        </div>
+    </section>
+
+    <!-- Блок 5: Расписание курса -->
+    <section class="section-blue">
+        <div class="container">
+            <h2 class="section-title-white">Расписание курса</h2>
+            <div class="schedule-content">
+                <div class="schedule-info">
+                    <div class="schedule-item">
+                        <div class="schedule-icon">📅</div>
+                        <div>
+                            <h3>Продолжительность</h3>
+                            <p>1 месяц интенсивного обучения</p>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-icon">🕒</div>
+                        <div>
+                            <h3>Формат</h3>
+                            <p>Онлайн в любое удобное время, доступ к урокам 24/7</p>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div class="schedule-icon">📖</div>
+                        <div>
+                            <h3>Структура</h3>
+                            <p>4 модуля: Дикция, Дыхание, Голос, Красота речи</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="cta-button-white" onclick="openModal()">Узнать подробнее</button>
+        </div>
+    </section>
+
+    <!-- Блок 6: Отзывы -->
+    <section class="section-white">
+        <div class="container">
+            <h2 class="section-title">Отзывы участников</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p>"Раньше боялась даже простого приветствия на планерках. После курса могу свободно говорить перед всей командой! Голос стал глубже, дикция — чётче."</p>
+                    <div class="testimonial-author">— Мария, HR-менеджер</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p>"Удивительно, но после второго модуля меня впервые похвалили за ясную речь на работе. Коллеги отметили, что я стала увереннее и убедительнее!"</p>
+                    <div class="testimonial-author">— Екатерина, дизайнер</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p>"Научилась управлять дыханием и голосом. Перестала заикаться, ушли зажимы в теле. Теперь даже записываю сторис без десяти дублей!"</p>
+                    <div class="testimonial-author">— Светлана, блогер</div>
+                </div>
+            </div>
+            <button class="cta-button-secondary" onclick="openModal()">Тоже хочу такой результат</button>
+        </div>
+    </section>
+
+    <!-- Блок 7: Тарифы -->
+    <section class="section-blue">
+        <div class="container">
+            <h2 class="section-title-white">Выберите свой тариф</h2>
+            <div class="tariffs-grid">
+                <div class="tariff-card">
+                    <div class="tariff-header">
+                        <h3>Самостоятельный</h3>
+                        <p class="tariff-description">Для тех, кто хочет изучать технику речи в удобном ритме</p>
+                    </div>
+                    <div class="tariff-price">
+                        <span class="price-old">7 499 ₽</span>
+                        <span class="price-new">4 499 ₽</span>
+                        <p class="price-note">Цена действительна 2 недели!</p>
+                    </div>
+                    <div class="tariff-features">
+                        <div class="feature">✓ Доступ ко всем видеоурокам</div>
+                        <div class="feature">✓ Домашние задания</div>
+                        <div class="feature">✓ Ежедневные речевые практики</div>
+                        <div class="feature">✓ Чек-листы и шпаргалки</div>
+                        <div class="feature">✓ Участие в общем чате</div>
+                    </div>
+                    <button class="tariff-button" onclick="openModal('self')">Выбрать тариф</button>
+                </div>
+                <div class="tariff-card tariff-popular">
+                    <div class="popular-badge">Популярный</div>
+                    <div class="tariff-header">
+                        <h3>С куратором</h3>
+                        <p class="tariff-description">Для тех, кто хочет ускорить результат с поддержкой</p>
+                    </div>
+                    <div class="tariff-price">
+                        <span class="price-old">12 499 ₽</span>
+                        <span class="price-new">9 499 ₽</span>
+                        <p class="price-note">Цена действительна 2 недели!</p>
+                    </div>
+                    <div class="tariff-features">
+                        <div class="feature">✓ Всё из тарифа "Самостоятельный"</div>
+                        <div class="feature">✓ Персональная обратная связь</div>
+                        <div class="feature">✓ Регулярные живые сессии</div>
+                        <div class="feature">✓ Индивидуальные рекомендации</div>
+                        <div class="feature">✓ Приоритетная поддержка</div>
+                    </div>
+                    <button class="tariff-button" onclick="openModal('curator')">Выбрать тариф</button>
+                </div>
+            </div>
+            <button class="cta-button-white" onclick="openModal()">Записаться на курс</button>
+        </div>
+    </section>
+
+    <!-- Блок 8: Демо-урок -->
+    <section class="section-white">
+        <div class="container">
+            <h2 class="section-title">Посмотрите демо-урок</h2>
+            <div class="demo-content">
+                <p class="demo-description">Убедитесь сами, как проходят занятия и какая атмосфера на курсе</p>
+                <div class="demo-video">
+                    <div class="video-placeholder">
+                        <div class="play-button" onclick="openDemoVideo()">
+                            <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                                <circle cx="30" cy="30" r="30" fill="#2563eb"/>
+                                <path d="M25 20L40 30L25 40V20Z" fill="white"/>
+                            </svg>
+                        </div>
+                        <img src="images/vlada-photo.jpg" alt="Демо-урок" class="video-preview">
+                    </div>
+                </div>
+                <a href="https://disk.yandex.ru/i/NAqfQjsmyF6ZAw" target="_blank" class="demo-link">Скачать демо-урок</a>
+            </div>
+            <button class="cta-button-secondary" onclick="openModal()">Записаться на полный курс</button>
+        </div>
+    </section>
+
+    <!-- Блок 9: Записаться на курс + короткие тезисы -->
+    <section class="section-blue">
+        <div class="container">
+            <h2 class="section-title-white">Записаться на курс</h2>
+            <div class="final-cta-content">
+                <div class="final-benefits">
+                    <div class="final-benefit">
+                        <div class="benefit-icon-small">🎯</div>
+                        <span>Результат уже через неделю</span>
+                    </div>
+                    <div class="final-benefit">
+                        <div class="benefit-icon-small">📱</div>
+                        <span>Доступ 24/7</span>
+                    </div>
+                    <div class="final-benefit">
+                        <div class="benefit-icon-small">👥</div>
+                        <span>Поддержка сообщества</span>
+                    </div>
+                    <div class="final-benefit">
+                        <div class="benefit-icon-small">🏆</div>
+                        <span>Гарантия качества</span>
+                    </div>
+                </div>
+                <div class="final-price">
+                    <span class="final-price-text">Всего от</span>
+                    <span class="final-price-value">4 499 ₽</span>
+                </div>
+                <button class="cta-button-large" onclick="openModal()">Записаться сейчас</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Бонусы -->
+    <section class="section-white">
+        <div class="container">
+            <h2 class="section-title">Бонусы для участников</h2>
+            <div class="bonuses-grid">
+                <div class="bonus-card">
+                    <div class="bonus-icon">🧘‍♀️</div>
+                    <h3>Медитации</h3>
+                    <p>Для расслабления тела и настройки на результат</p>
+                </div>
+                <div class="bonus-card">
+                    <div class="bonus-icon">🎙️</div>
+                    <h3>Ежедневные практики</h3>
+                    <p>Голосовые упражнения для развития голоса и речи</p>
+                </div>
+                <div class="bonus-card">
+                    <div class="bonus-icon">📋</div>
+                    <h3>Чек-листы</h3>
+                    <p>Практические руководства по подготовке к выступлениям</p>
+                </div>
+            </div>
+            <div class="author-signature">
+                <p>VM</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Модальное окно -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>Записаться на курс "ПРО ГОЛОС"</h3>
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label for="name">Ваше имя</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Телефон</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="tariff">Выберите тариф</label>
+                    <select id="tariff" name="tariff" required>
+                        <option value="">Выберите тариф</option>
+                        <option value="self">Самостоятельный - 4 499 ₽</option>
+                        <option value="curator">С куратором - 9 499 ₽</option>
+                    </select>
+                </div>
+                <button type="submit" class="form-submit">Записаться</button>
+            </form>
+            <div class="contact-links">
+                <p>Или свяжитесь с нами:</p>
+                <a href="https://t.me/vladaprogolos" target="_blank">Telegram</a>
+                <a href="https://forms.yandex.ru/u/68066871493639446b3a8e35/" target="_blank">Яндекс.Форма</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
+
