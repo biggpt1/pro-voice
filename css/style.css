@@ -699,19 +699,16 @@ body {
     margin-top: 40px;
 }
 
-.author-signature p {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #2563eb;
-    background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    border: 3px solid #2563eb;
+.vm-logo {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    filter: contrast(1.2) brightness(1.1);
+    transition: transform 0.3s ease;
+}
+
+.vm-logo:hover {
+    transform: scale(1.05);
 }
 
 /* Модальное окно */
