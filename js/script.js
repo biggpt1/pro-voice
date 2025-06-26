@@ -72,33 +72,102 @@ function submitToYandexForm(data) {
 }
 
 // Функциональность карусели запросов
+// Текущий индекс слайда (от 0 до totalSlides-1)
 let currentSlide = 0;
-const slidesPerView = window.innerWidth <= 768 ? 1 : (window.innerWidth <= 1024 ? 2 : 3);
+
+// Кол-во карточек, видимых одновременно, определяется динамически
+let slidesPerView = 1;
+
+// Общее кол-во "страниц" слайдов, зависит от кол-ва карточек и slidesPerView
 let totalSlides = 0;
 
+/**
+ * Функция возвращает количество видимых карточек в зависимости от ширины экрана
+ */
+function getSlidesPerView() {
+    const width = window.innerWidth;
+    if (width <= 768) return 1;    // Мобильные телефоны — 1 карточка
+    if (width <= 1024) return 2;   // Планшеты — 2 карточки
+    return 3;                      // Десктоп — 3 карточки
+}
+
+/**
+ * Функция возвращает ширину одной карточки с учётом отступа справа (gap)
+ * Чтобы сдвиг карусели был точным и не ломал верстку
+ */
+function getCardWidth() {
+    const track = document.getElementById('requestsTrack');
+    const firstCard = track.querySelector('.request-card');
+    if (firstCard) {
+        const style = window.getComputedStyle(firstCard);
+        const width = firstCard.offsetWidth; // реальная ширина карточки
+        const gapRight = parseInt(style.marginRight) || 20; // отступ справа (gap)
+        return width + gapRight;
+    }
+    return 370; // Запасной вариант, если что-то пошло не так
+}
+
+/**
+ * Инициализация карусели — создание точек навигации и вычисление параметров
+ */
 function initCarousel() {
+    slidesPerView = getSlidesPerView();
+
     const track = document.getElementById('requestsTrack');
     const dotsContainer = document.getElementById('carouselDots');
     const cards = track.children;
     
+    // Вычисляем количество "страниц" (слайдов)
     totalSlides = Math.ceil(cards.length / slidesPerView);
-    
-    // Создаем точки навигации
+
+    // Очищаем и создаём точки для навигации
     dotsContainer.innerHTML = '';
     for (let i = 0; i < totalSlides; i++) {
         const dot = document.createElement('div');
         dot.className = 'dot';
-        if (i === 0) dot.classList.add('active');
-        dot.addEventListener('click', () => goToSlide(i));
+        if (i === 0) dot.classList.add('active'); // первая точка активна по умолчанию
+        dot.addEventListener('click', () => goToSlide(i)); // клик по точке — перейти к слайду
         dotsContainer.appendChild(dot);
     }
     
-    updateCarousel();
+    currentSlide = 0; // стартуем с первого слайда
+    updateCarousel(); // обновляем отображение карусели
 }
 
+/**
+ * Обновляет позицию карусели и активную точку навигации
+ */
+function updateCarousel() {
+    const track = document.getElementById('requestsTrack');
+    const dots = document.querySelectorAll('.dot');
+    const cardWidth = getCardWidth();
+
+    // Вычисляем смещение по оси X (сдвиг трека)
+    let offset = -currentSlide * cardWidth * slidesPerView;
+
+    // Максимально допустимый сдвиг, чтобы не уехать вправо в пустоту
+    const maxOffset = -(cardWidth * (document.getElementById('requestsTrack').children.length - slidesPerView));
+
+    // Ограничиваем сдвиг максимальными значениями
+    if (offset < maxOffset) offset = maxOffset;
+    if (offset > 0) offset = 0;
+
+    // Применяем сдвиг с помощью CSS transform для плавного движения
+    track.style.transform = `translateX(${offset}px)`;
+
+    // Обновляем активное состояние точек навигации
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlide);
+    });
+}
+
+/**
+ * Перемещает карусель на указанное направление: -1 (влево), 1 (вправо)
+ */
 function moveCarousel(direction) {
     currentSlide += direction;
-    
+
+    // Цикличное переключение (с начала на конец и наоборот)
     if (currentSlide < 0) {
         currentSlide = totalSlides - 1;
     } else if (currentSlide >= totalSlides) {
@@ -108,69 +177,48 @@ function moveCarousel(direction) {
     updateCarousel();
 }
 
+/**
+ * Переходит на конкретный слайд по индексу
+ */
 function goToSlide(slideIndex) {
     currentSlide = slideIndex;
     updateCarousel();
 }
 
-function updateCarousel() {
-    const track = document.getElementById('requestsTrack');
-    const dots = document.querySelectorAll('.dot');
-    const cardWidth = 350 + 20; // ширина карточки + gap
-    
-    // Обновляем позицию трека
-    const offset = -currentSlide * cardWidth * slidesPerView;
-    track.style.transform = `translateX(${offset}px)`;
-    
-    // Обновляем активную точку
-    dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentSlide);
-    });
-}
+/**
+ * Обработчик изменения размера окна:
+ * Если изменилось количество видимых карточек, пересчитываем параметры карусели
+ */
+window.addEventListener('resize', () => {
+    const oldSlidesPerView = slidesPerView;
+    slidesPerView = getSlidesPerView();
 
-// Автоматическое переключение слайдов
-function startAutoSlide() {
-    setInterval(() => {
-        moveCarousel(1);
-    }, 5000); // Переключение каждые 5 секунд
-}
+    if (oldSlidesPerView !== slidesPerView) {
+        const track = document.getElementById('requestsTrack');
+        const cards = track.children;
+        totalSlides = Math.ceil(cards.length / slidesPerView);
 
-// Функция для демо-видео
-function openDemoVideo() {
-    window.open('https://disk.yandex.ru/i/NAqfQjsmyF6ZAw', '_blank');
-}
+        // Если текущий слайд выходит за пределы, корректируем его
+        if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
 
-// Функция скачивания программы
-function downloadProgram() {
-    // Здесь можно добавить ссылку на реальный PDF файл
-    alert('Программа курса будет отправлена на ваш email после регистрации');
-    openModal();
-}
-
-// FAQ функциональность
-function toggleFaq(element) {
-    const faqItem = element.parentElement;
-    const isActive = faqItem.classList.contains('active');
-    
-    // Закрываем все открытые FAQ
-    document.querySelectorAll('.faq-item').forEach(item => {
-        item.classList.remove('active');
-    });
-    
-    // Открываем текущий, если он не был активен
-    if (!isActive) {
-        faqItem.classList.add('active');
+        updateCarousel();
     }
-}
+});
 
-// Плавная прокрутка к секциям
-function scrollToSection(sectionId) {
-    const section = document.getElementById(sectionId);
-    if (section) {
-        section.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
+// Инициализация карусели при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    initCarousel();
+
+    // Привязка событий к кнопкам навигации, если они есть в DOM
+    const prevBtn = document.querySelector('.carousel-btn.prev');
+    const nextBtn = document.querySelector('.carousel-btn.next');
+
+    if (prevBtn && nextBtn) {
+        prevBtn.addEventListener('click', () => moveCarousel(-1));
+        nextBtn.addEventListener('click', () => moveCarousel(1));
+    }
+});
+
     }
 }
 
