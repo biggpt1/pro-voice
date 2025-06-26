@@ -34,10 +34,20 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     const formData = new FormData(this);
     const data = Object.fromEntries(formData);
     
-    // Здесь можно добавить отправку данных на сервер
-    console.log('Данные формы:', data);
+    // Формируем сообщение для Telegram
+    const message = `🎯 Новая заявка на курс "ПРО ГОЛОС"
     
-    alert('Спасибо за регистрацию! Мы свяжемся с вами в ближайшее время.');
+👤 Имя: ${data.name}
+📧 Email: ${data.email}
+📱 Телефон: ${data.phone}
+💬 Telegram: @${data.telegram}
+🎯 Тариф: ${data.tariff === 'self' ? 'Самостоятельное изучение (4 499 ₽)' : 'С куратором (7 499 ₽)'}`;
+    
+    // Открываем Telegram с готовым сообщением
+    const telegramUrl = `https://t.me/vladamamedova?text=${encodeURIComponent(message)}`;
+    window.open(telegramUrl, '_blank');
+    
+    alert('Спасибо за интерес к курсу! Мы открыли Telegram с готовым сообщением. Отправьте его, и мы свяжемся с вами в ближайшее время.');
     closeModal();
     this.reset();
 });
@@ -111,6 +121,7 @@ function openDemoVideo() {
     window.open('https://disk.yandex.ru/i/NAqfQjsmyF6ZAw', '_blank');
 }
 
+
 // Плавная прокрутка к секциям
 function scrollToSection(sectionId) {
     const section = document.getElementById(sectionId);
@@ -154,46 +165,6 @@ function handleResize() {
     }
 }
 
-// Инициализация при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
-    initCarousel();
-    startAutoSlide();
-    animateOnScroll();
-    
-    // Добавляем обработчик изменения размера окна
-    window.addEventListener('resize', handleResize);
-    
-    // Добавляем обработчики для кнопок карусели
-    document.querySelector('.carousel-btn.prev').addEventListener('click', () => moveCarousel(-1));
-    document.querySelector('.carousel-btn.next').addEventListener('click', () => moveCarousel(1));
-});
-
-// Функция для отправки данных формы (можно расширить для интеграции с бэкендом)
-function submitForm(formData) {
-    // Здесь можно добавить отправку данных на сервер
-    // Например, через fetch API или XMLHttpRequest
-    
-    // Пример:
-    /*
-    fetch('/api/register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-        alert('Регистрация успешна!');
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-        alert('Произошла ошибка при регистрации');
-    });
-    */
-}
-
 // Дополнительные функции для улучшения UX
 function addHoverEffects() {
     // Добавляем эффекты наведения для карточек
@@ -210,27 +181,18 @@ function addHoverEffects() {
     });
 }
 
-// Функция для отслеживания кликов по кнопкам (аналитика)
-function trackButtonClicks() {
-    const buttons = document.querySelectorAll('button, .demo-link');
-    
-    buttons.forEach(button => {
-        button.addEventListener('click', function() {
-            const buttonText = this.textContent.trim();
-            console.log('Button clicked:', buttonText);
-            
-            // Здесь можно добавить отправку события в Google Analytics или другую систему аналитики
-            // gtag('event', 'click', {
-            //     'event_category': 'Button',
-            //     'event_label': buttonText
-            // });
-        });
-    });
-}
-
-// Инициализация дополнительных функций
+// Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
+    initCarousel();
+    startAutoSlide();
+    animateOnScroll();
     addHoverEffects();
-    trackButtonClicks();
+    
+    // Добавляем обработчик изменения размера окна
+    window.addEventListener('resize', handleResize);
+    
+    // Добавляем обработчики для кнопок карусели
+    document.querySelector('.carousel-btn.prev').addEventListener('click', () => moveCarousel(-1));
+    document.querySelector('.carousel-btn.next').addEventListener('click', () => moveCarousel(1));
 });
 
