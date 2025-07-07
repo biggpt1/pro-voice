@@ -993,6 +993,7 @@ body {
     .format-grid,
     .bonuses {
         grid-template-columns: 1fr;
+        justify-items: center;
     }
     
     .carousel-track {
@@ -1017,8 +1018,23 @@ body {
         right: 10px;
     }
     
+    .tariffs {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        gap: 30px;
+    }
+    
+    .tariff-card {
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+        justify-self: center;
+    }
+    
     .tariff-card.popular {
         transform: none;
+        margin: 0 auto;
+        justify-self: center;
     }
     
     .modal-content {
@@ -1055,6 +1071,31 @@ body {
     
     .request-card {
         flex: 0 0 250px;
+    }
+    
+    .tariffs {
+        padding: 0 10px;
+    }
+    
+    .tariff-card {
+        max-width: 300px;
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width: 380px) {
+    .tariffs {
+        padding: 0 5px;
+    }
+    
+    .tariff-card {
+        max-width: 280px;
+        padding: 25px 15px;
+        margin: 0 auto;
+    }
+    
+    .tariff-card.popular {
+        margin: 0 auto;
     }
 }
 
