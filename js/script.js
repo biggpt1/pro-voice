@@ -6,69 +6,92 @@ const PROMO_CONFIG = {
     deadlineText: '1 августа', // Текст для отображения
     // Цены самостоятельного тарифа
     selfTariff: {
-        currentPrice: '4 499 ₽',
-        oldPrice: '7 499 ₽'
+        currentPrice: '4 499 ₽',    // Цена во время акции
+        oldPrice: '7 499 ₽',       // Обычная цена
+        regularPrice: '7 499 ₽'    // Цена после окончания акции
     },
     
     // Цены тарифа с куратором
     curatorTariff: {
-        currentPrice: '9 499 ₽',
-        oldPrice: '12 499 ₽'
+        currentPrice: '9 499 ₽',    // Цена во время акции
+        oldPrice: '12 499 ₽',      // Обычная цена
+        regularPrice: '12 499 ₽'   // Цена после окончания акции
     }
 };
 
+// Функция для проверки, действует ли еще акция
+function isPromoActive() {
+    const deadline = new Date(PROMO_CONFIG.deadline + 'T23:59:59').getTime();
+    const now = new Date().getTime();
+    return now < deadline;
+}
+
 // Функция для автоматического обновления всех цен и дат на странице
 function updatePricesAndDates() {
+    const promoActive = isPromoActive();
+    
+    if (promoActive) {
+        // Акция действует - показываем акционные цены
+        updatePromoPrices();
+    } else {
+        // Акция завершена - показываем обычные цены
+        updateRegularPrices();
+    }
+}
+
+// Функция обновления цен во время акции
+function updatePromoPrices() {
     // Обновляем даты акции
-    // 1. "Акция до X:" в hero-секции
     const priceLabelEl = document.querySelector('.price-label');
     if (priceLabelEl) {
         priceLabelEl.textContent = `Акция до ${PROMO_CONFIG.deadlineText}:`;
     }
     
-    // 2. "до X" в тарифах (два места)
     const priceNoteElements = document.querySelectorAll('.price-note');
     priceNoteElements.forEach(el => {
         el.textContent = `до ${PROMO_CONFIG.deadlineText}`;
     });
     
-    // 3. "Акция действует до X" в форме
     const urgencyTextEl = document.querySelector('.urgency-text');
     if (urgencyTextEl) {
         urgencyTextEl.textContent = `Акция действует до ${PROMO_CONFIG.deadlineText}`;
     }
     
-    // Обновляем цены в главной секции (hero)
+    // Обновляем акционные цены
     const heroPriceValue = document.querySelector('.price-value');
     const heroPriceOld = document.querySelector('.price-old');
     if (heroPriceValue) {
         heroPriceValue.textContent = PROMO_CONFIG.selfTariff.currentPrice;
+        console.log('✅ Обновлена текущая цена:', PROMO_CONFIG.selfTariff.currentPrice);
     }
     if (heroPriceOld) {
         heroPriceOld.textContent = PROMO_CONFIG.selfTariff.oldPrice;
+        heroPriceOld.style.display = 'inline-block';
+        heroPriceOld.style.visibility = 'visible';
+        heroPriceOld.style.opacity = '1';
+        console.log('✅ Обновлена старая цена:', PROMO_CONFIG.selfTariff.oldPrice);
+        console.log('✅ Элемент старой цены найден:', heroPriceOld);
+    } else {
+        console.log('❌ Элемент старой цены НЕ найден!');
     }
     
-    // Обновляем цены в тарифах
     const priceCurrentElements = document.querySelectorAll('.price-current');
     const priceOldElements = document.querySelectorAll('.price-old');
     
-    // Первый тариф (самостоятельный)
     if (priceCurrentElements[0]) {
         priceCurrentElements[0].textContent = PROMO_CONFIG.selfTariff.currentPrice;
     }
-    if (priceOldElements[1]) { // Второй элемент, так как первый в hero-секции
+    if (priceOldElements[1]) {
         priceOldElements[1].textContent = PROMO_CONFIG.selfTariff.oldPrice;
     }
     
-    // Второй тариф (с куратором)
     if (priceCurrentElements[1]) {
         priceCurrentElements[1].textContent = PROMO_CONFIG.curatorTariff.currentPrice;
     }
-    if (priceOldElements[2]) { // Третий элемент
+    if (priceOldElements[2]) {
         priceOldElements[2].textContent = PROMO_CONFIG.curatorTariff.oldPrice;
     }
     
-    // Обновляем опции в форме
     const selfOption = document.querySelector('option[value="self"]');
     const curatorOption = document.querySelector('option[value="curator"]');
     if (selfOption) {
@@ -79,12 +102,71 @@ function updatePricesAndDates() {
     }
 }
 
+// Функция обновления цен после окончания акции
+function updateRegularPrices() {
+    // Скрываем акционные блоки
+    const priceLabelEl = document.querySelector('.price-label');
+    if (priceLabelEl) {
+        priceLabelEl.textContent = 'Обычная цена:';
+    }
+    
+    const priceNoteElements = document.querySelectorAll('.price-note');
+    priceNoteElements.forEach(el => {
+        el.style.display = 'none'; // Скрываем "до X"
+    });
+    
+    const urgencyTextEl = document.querySelector('.urgency-text');
+    if (urgencyTextEl) {
+        urgencyTextEl.textContent = 'Курс доступен по обычной цене';
+    }
+    
+    // Устанавливаем обычные цены (без скидки)
+    const heroPriceValue = document.querySelector('.price-value');
+    const heroPriceOld = document.querySelector('.price-old');
+    if (heroPriceValue) {
+        heroPriceValue.textContent = PROMO_CONFIG.selfTariff.regularPrice;
+    }
+    if (heroPriceOld) {
+        heroPriceOld.style.display = 'none'; // Скрываем зачеркнутую цену
+    }
+    
+    const priceCurrentElements = document.querySelectorAll('.price-current');
+    const priceOldElements = document.querySelectorAll('.price-old');
+    
+    if (priceCurrentElements[0]) {
+        priceCurrentElements[0].textContent = PROMO_CONFIG.selfTariff.regularPrice;
+    }
+    if (priceOldElements[1]) {
+        priceOldElements[1].style.display = 'none';
+    }
+    
+    if (priceCurrentElements[1]) {
+        priceCurrentElements[1].textContent = PROMO_CONFIG.curatorTariff.regularPrice;
+    }
+    if (priceOldElements[2]) {
+        priceOldElements[2].style.display = 'none';
+    }
+    
+    const selfOption = document.querySelector('option[value="self"]');
+    const curatorOption = document.querySelector('option[value="curator"]');
+    if (selfOption) {
+        selfOption.textContent = `Самостоятельный (${PROMO_CONFIG.selfTariff.regularPrice})`;
+    }
+    if (curatorOption) {
+        curatorOption.textContent = `С куратором (${PROMO_CONFIG.curatorTariff.regularPrice})`;
+    }
+}
+
 // Функция для получения названий тарифов с ценами (для отправки данных)
 function getTariffName(tariffType) {
+    const promoActive = isPromoActive();
+    
     if (tariffType === 'self') {
-        return `Самостоятельный (${PROMO_CONFIG.selfTariff.currentPrice})`;
+        const price = promoActive ? PROMO_CONFIG.selfTariff.currentPrice : PROMO_CONFIG.selfTariff.regularPrice;
+        return `Самостоятельный (${price})`;
     } else {
-        return `С куратором (${PROMO_CONFIG.curatorTariff.currentPrice})`;
+        const price = promoActive ? PROMO_CONFIG.curatorTariff.currentPrice : PROMO_CONFIG.curatorTariff.regularPrice;
+        return `С куратором (${price})`;
     }
 }
 
@@ -413,15 +495,31 @@ function startCountdown() {
         const now = new Date().getTime();
         const timeLeft = deadline - now;
         
+        const countdownElements = document.querySelectorAll('.countdown');
+        
         if (timeLeft > 0) {
+            // Акция еще идет - показываем обратный отсчет
             const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
             const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
             
-            const countdownElements = document.querySelectorAll('.countdown');
             countdownElements.forEach(el => {
                 el.textContent = `${days}д ${hours}ч ${minutes}м до окончания акции`;
+                el.style.color = '#dc2626'; // Красный текст на белом фоне
+                el.style.background = 'white';
+                el.style.borderColor = '#dc2626';
             });
+        } else {
+            // Акция завершена - показываем сообщение и обновляем цены
+            countdownElements.forEach(el => {
+                el.textContent = '🚀 Акция завершена! Курс доступен по обычной цене';
+                el.style.color = '#6b7280'; // Серый текст
+                el.style.background = 'white';
+                el.style.borderColor = '#6b7280';
+            });
+            
+            // Автоматически обновляем цены при истечении акции
+            updatePricesAndDates();
         }
     }
     
@@ -591,11 +689,65 @@ document.addEventListener('DOMContentLoaded', function() {
 // Дополнительная проверка после полной загрузки страницы
 window.addEventListener('load', function() {
     updatePricesAndDates();
+    
+    // Принудительное обновление цен с задержкой
+    setTimeout(() => {
+        updatePricesAndDates();
+        
+        // Дополнительная проверка hero-цены
+        const heroPriceOld = document.querySelector('.hero-price .price-old');
+        if (heroPriceOld) {
+            heroPriceOld.textContent = PROMO_CONFIG.selfTariff.oldPrice;
+            heroPriceOld.style.display = 'inline-block';
+            heroPriceOld.style.visibility = 'visible';
+            heroPriceOld.style.opacity = '1';
+            heroPriceOld.style.fontSize = '1.5rem';
+            heroPriceOld.style.color = '#374151';
+            heroPriceOld.style.textDecoration = 'line-through';
+            heroPriceOld.style.fontWeight = '500';
+            console.log('🔧 Принудительно обновлена старая цена:', heroPriceOld.textContent);
+        } else {
+            console.log('❌ Элемент .hero-price .price-old НЕ найден!');
+        }
+        
+        // Ищем и обновляем ВСЕ элементы старой цены
+        const allPriceOldElements = document.querySelectorAll('.price-old');
+        console.log('🔍 Найдено элементов .price-old:', allPriceOldElements.length);
+        
+        allPriceOldElements.forEach((element, index) => {
+            if (index === 0) { // Первый элемент - это hero-секция
+                element.textContent = PROMO_CONFIG.selfTariff.oldPrice;
+                element.style.display = 'inline-block';
+                element.style.visibility = 'visible';
+                element.style.opacity = '1';
+                console.log('🔧 Обновлен элемент #' + index + ':', element.textContent);
+            }
+        });
+        
+        console.log('🔄 Цены обновлены принудительно');
+    }, 500);
 });
 
 // Глобальная функция для отладки (можно вызвать из консоли)
 window.updatePricesAndDates = updatePricesAndDates;
 window.PROMO_CONFIG = PROMO_CONFIG;
+window.isPromoActive = isPromoActive;
+
+// Функция для тестирования - установить дату в прошлое для проверки
+window.testExpiredPromo = function() {
+    PROMO_CONFIG.deadline = '2020-01-01';
+    PROMO_CONFIG.deadlineText = '1 января 2020';
+    updatePricesAndDates();
+    console.log('🧪 Тестирование: акция завершена');
+};
+
+// Функция для тестирования - вернуть активную акцию
+window.testActivePromo = function() {
+    PROMO_CONFIG.deadline = '2025-12-31';
+    PROMO_CONFIG.deadlineText = '31 декабря';
+    updatePricesAndDates();
+    console.log('🧪 Тестирование: акция активна');
+};
 
 // Функция для показа уведомлений
 function showNotification(message, type = 'success') {
