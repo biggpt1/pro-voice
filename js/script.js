@@ -1,3 +1,55 @@
+// Функция для работы с FAQ
+function toggleFaq(element) {
+    const faqItem = element.parentElement;
+    const answer = faqItem.querySelector('.faq-answer');
+    const toggle = element.querySelector('.faq-toggle');
+    
+    // Закрываем все остальные FAQ
+    const allFaqItems = document.querySelectorAll('.faq-item');
+    allFaqItems.forEach(item => {
+        if (item !== faqItem && item.classList.contains('active')) {
+            item.classList.remove('active');
+            const otherToggle = item.querySelector('.faq-toggle');
+            if (otherToggle) otherToggle.textContent = '+';
+        }
+    });
+    
+    // Переключаем текущий FAQ
+    faqItem.classList.toggle('active');
+    
+    if (faqItem.classList.contains('active')) {
+        toggle.textContent = '−';
+    } else {
+        toggle.textContent = '+';
+    }
+}
+
+// Функция для скачивания программы
+function downloadProgram() {
+    // Создаем временную ссылку для скачивания
+    const link = document.createElement('a');
+    
+    // Можно добавить реальную ссылку на PDF файл программы
+    // link.href = 'files/program.pdf';
+    
+    // Пока показываем уведомление
+    showNotification('Программа курса будет отправлена на ваш email после регистрации на курс', 'info');
+    
+    // Открываем модальное окно для регистрации
+    setTimeout(() => {
+        openModal();
+    }, 1500);
+}
+
+// Функция для открытия демо-урока
+function openDemoVideo() {
+    // Ссылка на демо-урок из README
+    const demoUrl = 'https://disk.yandex.ru/i/NAqfQjsmyF6ZAw';
+    window.open(demoUrl, '_blank');
+    
+    showNotification('Демо-урок открывается в новой вкладке', 'success');
+}
+
 // Функции для модального окна
 function openModal(tariff = '') {
     const modal = document.getElementById('modal');
@@ -27,33 +79,7 @@ window.onclick = function(event) {
     }
 }
 
-// Обработка формы
-document.getElementById('registrationForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData);
-    
-    // Формируем сообщение для Telegram
-    const message = `🎯 Новая заявка на курс "ПРО ГОЛОС"
-    
-👤 Имя: ${data.name}
-📧 Email: ${data.email}
-📱 Телефон: ${data.phone}
-💬 Telegram: @${data.telegram}
-🎯 Тариф: ${data.tariff === 'self' ? 'Самостоятельный (4 499 ₽)' : 'С куратором (9 499 ₽)'}`;
-    
-    // Открываем Telegram с готовым сообщением
-    const telegramUrl = `https://t.me/vladamamedova?text=${encodeURIComponent(message)}`;
-    window.open(telegramUrl, '_blank');
-    
-    // Также отправляем через Яндекс.Форму (если нужно)
-    submitToYandexForm(data);
-    
-    alert('Спасибо за интерес к курсу! Мы открыли Telegram с готовым сообщением. Отправьте его, и мы свяжемся с вами в ближайшее время.');
-    closeModal();
-    this.reset();
-});
+
 
 // Функция отправки в Яндекс.Форму
 function submitToYandexForm(data) {
@@ -205,22 +231,7 @@ window.addEventListener('resize', () => {
     }
 });
 
-// Инициализация карусели при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
-    initCarousel();
 
-    // Привязка событий к кнопкам навигации, если они есть в DOM
-    const prevBtn = document.querySelector('.carousel-btn.prev');
-    const nextBtn = document.querySelector('.carousel-btn.next');
-
-    if (prevBtn && nextBtn) {
-        prevBtn.addEventListener('click', () => moveCarousel(-1));
-        nextBtn.addEventListener('click', () => moveCarousel(1));
-    }
-});
-
-    }
-}
 
 // Анимация появления элементов при скролле
 function animateOnScroll() {
@@ -363,7 +374,6 @@ function addParallaxEffect() {
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
     initCarousel();
-    startAutoSlide();
     animateOnScroll();
     addHoverEffects();
     trackButtonClicks();
@@ -410,6 +420,39 @@ document.addEventListener('DOMContentLoaded', function() {
             this.reset();
         });
     }
+    
+    // Обработчик формы регистрации с валидацией
+    const registrationForm = document.getElementById('registrationForm');
+    if (registrationForm) {
+        registrationForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validateForm(this)) {
+                showNotification('Пожалуйста, заполните все обязательные поля корректно', 'error');
+                return;
+            }
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Формируем сообщение для Telegram
+            const message = `🎯 Новая заявка на курс "ПРО ГОЛОС"
+            
+👤 Имя: ${data.name}
+📧 Email: ${data.email}
+📱 Телефон: ${data.phone}
+💬 Telegram: @${data.telegram || 'не указан'}
+🎯 Тариф: ${data.tariff === 'self' ? 'Самостоятельный (4 499 ₽)' : 'С куратором (9 499 ₽)'}`;
+            
+            // Открываем Telegram с готовым сообщением
+            const telegramUrl = `https://t.me/vladamamedova?text=${encodeURIComponent(message)}`;
+            window.open(telegramUrl, '_blank');
+            
+            showNotification('Спасибо за заявку! Мы открыли Telegram с готовым сообщением.');
+            closeModal();
+            this.reset();
+        });
+    }
 });
 
 // Функция для показа уведомлений
@@ -418,11 +461,15 @@ function showNotification(message, type = 'success') {
     notification.className = `notification ${type}`;
     notification.textContent = message;
     
+    let backgroundColor = '#10b981'; // success - зеленый
+    if (type === 'error') backgroundColor = '#ef4444'; // ошибка - красный  
+    if (type === 'info') backgroundColor = '#3b82f6'; // информация - синий
+    
     notification.style.cssText = `
         position: fixed;
         top: 20px;
         right: 20px;
-        background: ${type === 'success' ? '#10b981' : '#ef4444'};
+        background: ${backgroundColor};
         color: white;
         padding: 15px 20px;
         border-radius: 8px;
@@ -485,38 +532,5 @@ function validateForm(form) {
     return isValid;
 }
 
-// Обновляем обработчик формы с валидацией
-document.addEventListener('DOMContentLoaded', function() {
-    const registrationForm = document.getElementById('registrationForm');
-    if (registrationForm) {
-        registrationForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            if (!validateForm(this)) {
-                showNotification('Пожалуйста, заполните все обязательные поля корректно', 'error');
-                return;
-            }
-            
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
-            
-            // Формируем сообщение для Telegram
-            const message = `🎯 Новая заявка на курс "ПРО ГОЛОС"
-            
-👤 Имя: ${data.name}
-📧 Email: ${data.email}
-📱 Телефон: ${data.phone}
-💬 Telegram: @${data.telegram || 'не указан'}
-🎯 Тариф: ${data.tariff === 'self' ? 'Самостоятельный (4 499 ₽)' : 'С куратором (9 499 ₽)'}`;
-            
-            // Открываем Telegram с готовым сообщением
-            const telegramUrl = `https://t.me/vladamamedova?text=${encodeURIComponent(message)}`;
-            window.open(telegramUrl, '_blank');
-            
-            showNotification('Спасибо за заявку! Мы открыли Telegram с готовым сообщением.');
-            closeModal();
-            this.reset();
-        });
-    }
-});
+
 
