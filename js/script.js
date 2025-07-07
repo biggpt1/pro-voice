@@ -8,7 +8,7 @@ const PROMO_CONFIG = {
     selfTariff: {
         currentPrice: '4 499 ₽',    // Цена во время акции
         oldPrice: '7 499 ₽',       // Обычная цена
-        regularPrice: '7 499 ₽'    // Цена после окончания акции
+        regularPrice: '7 499 ₽'    // Цена после окончания акции 
     },
     
     // Цены тарифа с куратором
