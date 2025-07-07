@@ -424,7 +424,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Обработчик формы регистрации с валидацией
     const registrationForm = document.getElementById('registrationForm');
     if (registrationForm) {
-        registrationForm.addEventListener('submit', function(e) {
+        registrationForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             if (!validateForm(this)) {
@@ -435,22 +435,60 @@ document.addEventListener('DOMContentLoaded', function() {
             const formData = new FormData(this);
             const data = Object.fromEntries(formData);
             
-            // Формируем сообщение для Telegram
-            const message = `🎯 Новая заявка на курс "ПРО ГОЛОС"
+            // Показываем индикатор загрузки
+            const submitBtn = this.querySelector('.submit-button');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Отправляем...';
+            submitBtn.disabled = true;
             
+            try {
+                // Отправляем данные на вебхук
+                const webhookResponse = await fetch('https://hook.eu2.make.com/b14fpmmc28whdu9d8ugp5jmqlfzw3k1r', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: data.name,
+                        email: data.email,
+                        phone: data.phone,
+                        telegram: data.telegram || '',
+                        tariff: data.tariff,
+                        tariff_name: data.tariff === 'self' ? 'Самостоятельный (4 499 ₽)' : 'С куратором (9 499 ₽)',
+                        timestamp: new Date().toISOString(),
+                        source: 'landing_page'
+                    })
+                });
+                
+                if (webhookResponse.ok) {
+                    // Формируем сообщение для Telegram
+                    const message = `🎯 Новая заявка на курс "ПРО ГОЛОС"
+                    
 👤 Имя: ${data.name}
 📧 Email: ${data.email}
 📱 Телефон: ${data.phone}
 💬 Telegram: @${data.telegram || 'не указан'}
 🎯 Тариф: ${data.tariff === 'self' ? 'Самостоятельный (4 499 ₽)' : 'С куратором (9 499 ₽)'}`;
-            
-            // Открываем Telegram с готовым сообщением
-            const telegramUrl = `https://t.me/vladamamedova?text=${encodeURIComponent(message)}`;
-            window.open(telegramUrl, '_blank');
-            
-            showNotification('Спасибо за заявку! Мы открыли Telegram с готовым сообщением.');
-            closeModal();
-            this.reset();
+                    
+                    // Открываем Telegram с готовым сообщением
+                    const telegramUrl = `https://t.me/vladamamedova?text=${encodeURIComponent(message)}`;
+                    window.open(telegramUrl, '_blank');
+                    
+                    showNotification('Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.', 'success');
+                    closeModal();
+                    this.reset();
+                } else {
+                    throw new Error('Ошибка отправки на сервер');
+                }
+                
+            } catch (error) {
+                console.error('Ошибка при отправке данных:', error);
+                showNotification('Произошла ошибка при отправке. Попробуйте еще раз.', 'error');
+            } finally {
+                // Восстанавливаем кнопку
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
         });
     }
 });
