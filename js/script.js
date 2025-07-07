@@ -461,18 +461,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 
                 if (webhookResponse.ok) {
-                    // Формируем сообщение для Telegram
-                    const message = `🎯 Новая заявка на курс "ПРО ГОЛОС"
+                    // Формируем сообщение для Telegram (закомментировано)
+                    // const message = `🎯 Новая заявка на курс "ПРО ГОЛОС"
+                    // 
+                    // 👤 Имя: ${data.name}
+                    // 📧 Email: ${data.email}
+                    // 📱 Телефон: ${data.phone}
+                    // 💬 Telegram: @${data.telegram || 'не указан'}
+                    // 🎯 Тариф: ${data.tariff === 'self' ? 'Самостоятельный (4 499 ₽)' : 'С куратором (9 499 ₽)'}`;
                     
-👤 Имя: ${data.name}
-📧 Email: ${data.email}
-📱 Телефон: ${data.phone}
-💬 Telegram: @${data.telegram || 'не указан'}
-🎯 Тариф: ${data.tariff === 'self' ? 'Самостоятельный (4 499 ₽)' : 'С куратором (9 499 ₽)'}`;
-                    
-                    // Открываем Telegram с готовым сообщением
-                    const telegramUrl = `https://t.me/vladamamedova?text=${encodeURIComponent(message)}`;
-                    window.open(telegramUrl, '_blank');
+                    // Открываем Telegram с готовым сообщением (закомментировано)
+                    // const telegramUrl = `https://t.me/vladamamedova?text=${encodeURIComponent(message)}`;
+                    // window.open(telegramUrl, '_blank');
                     
                     showNotification('Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.', 'success');
                     closeModal();
