@@ -2,9 +2,8 @@
 // Здесь можно легко изменить все цены и даты в одном месте
 const PROMO_CONFIG = {
     // Дата окончания акции
-    deadline: '2025-07-15', // Формат: YYYY-MM-DD
-    deadlineText: '15 июля', // Текст для отображения
-    
+    deadline: '2025-08-01', // Формат: YYYY-MM-DD
+    deadlineText: '1 августа', // Текст для отображения
     // Цены самостоятельного тарифа
     selfTariff: {
         currentPrice: '4 499 ₽',
@@ -21,51 +20,63 @@ const PROMO_CONFIG = {
 // Функция для автоматического обновления всех цен и дат на странице
 function updatePricesAndDates() {
     // Обновляем даты акции
-    const deadlineElements = [
-        '.price-label', // "Акция до X:"
-        '.price-note',  // "до X" в тарифах
-        '.urgency-text' // "Акция действует до X"
-    ];
+    // 1. "Акция до X:" в hero-секции
+    const priceLabelEl = document.querySelector('.price-label');
+    if (priceLabelEl) {
+        priceLabelEl.textContent = `Акция до ${PROMO_CONFIG.deadlineText}:`;
+    }
     
-    deadlineElements.forEach(selector => {
-        const elements = document.querySelectorAll(selector);
-        elements.forEach(el => {
-            if (el.textContent.includes('Акция до')) {
-                el.textContent = `Акция до ${PROMO_CONFIG.deadlineText}:`;
-            } else if (el.textContent.includes('до ') && el.textContent.length < 15) {
-                el.textContent = `до ${PROMO_CONFIG.deadlineText}`;
-            } else if (el.textContent.includes('Акция действует до')) {
-                el.textContent = `Акция действует до ${PROMO_CONFIG.deadlineText}`;
-            }
-        });
+    // 2. "до X" в тарифах (два места)
+    const priceNoteElements = document.querySelectorAll('.price-note');
+    priceNoteElements.forEach(el => {
+        el.textContent = `до ${PROMO_CONFIG.deadlineText}`;
     });
+    
+    // 3. "Акция действует до X" в форме
+    const urgencyTextEl = document.querySelector('.urgency-text');
+    if (urgencyTextEl) {
+        urgencyTextEl.textContent = `Акция действует до ${PROMO_CONFIG.deadlineText}`;
+    }
     
     // Обновляем цены в главной секции (hero)
-    const heroPriceValue = document.querySelector('.hero-price .price-value');
-    const heroPriceOld = document.querySelector('.hero-price .price-old');
-    if (heroPriceValue) heroPriceValue.textContent = PROMO_CONFIG.selfTariff.currentPrice;
-    if (heroPriceOld) heroPriceOld.textContent = PROMO_CONFIG.selfTariff.oldPrice;
+    const heroPriceValue = document.querySelector('.price-value');
+    const heroPriceOld = document.querySelector('.price-old');
+    if (heroPriceValue) {
+        heroPriceValue.textContent = PROMO_CONFIG.selfTariff.currentPrice;
+    }
+    if (heroPriceOld) {
+        heroPriceOld.textContent = PROMO_CONFIG.selfTariff.oldPrice;
+    }
     
     // Обновляем цены в тарифах
-    const tariffCards = document.querySelectorAll('.tariff-card');
-    tariffCards.forEach((card, index) => {
-        const currentPriceEl = card.querySelector('.price-current');
-        const oldPriceEl = card.querySelector('.price-old');
-        
-        if (index === 0) { // Первая карточка - самостоятельный тариф
-            if (currentPriceEl) currentPriceEl.textContent = PROMO_CONFIG.selfTariff.currentPrice;
-            if (oldPriceEl) oldPriceEl.textContent = PROMO_CONFIG.selfTariff.oldPrice;
-        } else if (index === 1) { // Вторая карточка - тариф с куратором
-            if (currentPriceEl) currentPriceEl.textContent = PROMO_CONFIG.curatorTariff.currentPrice;
-            if (oldPriceEl) oldPriceEl.textContent = PROMO_CONFIG.curatorTariff.oldPrice;
-        }
-    });
+    const priceCurrentElements = document.querySelectorAll('.price-current');
+    const priceOldElements = document.querySelectorAll('.price-old');
+    
+    // Первый тариф (самостоятельный)
+    if (priceCurrentElements[0]) {
+        priceCurrentElements[0].textContent = PROMO_CONFIG.selfTariff.currentPrice;
+    }
+    if (priceOldElements[1]) { // Второй элемент, так как первый в hero-секции
+        priceOldElements[1].textContent = PROMO_CONFIG.selfTariff.oldPrice;
+    }
+    
+    // Второй тариф (с куратором)
+    if (priceCurrentElements[1]) {
+        priceCurrentElements[1].textContent = PROMO_CONFIG.curatorTariff.currentPrice;
+    }
+    if (priceOldElements[2]) { // Третий элемент
+        priceOldElements[2].textContent = PROMO_CONFIG.curatorTariff.oldPrice;
+    }
     
     // Обновляем опции в форме
     const selfOption = document.querySelector('option[value="self"]');
     const curatorOption = document.querySelector('option[value="curator"]');
-    if (selfOption) selfOption.textContent = `Самостоятельный (${PROMO_CONFIG.selfTariff.currentPrice})`;
-    if (curatorOption) curatorOption.textContent = `С куратором (${PROMO_CONFIG.curatorTariff.currentPrice})`;
+    if (selfOption) {
+        selfOption.textContent = `Самостоятельный (${PROMO_CONFIG.selfTariff.currentPrice})`;
+    }
+    if (curatorOption) {
+        curatorOption.textContent = `С куратором (${PROMO_CONFIG.curatorTariff.currentPrice})`;
+    }
 }
 
 // Функция для получения названий тарифов с ценами (для отправки данных)
@@ -453,7 +464,9 @@ function addParallaxEffect() {
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
     // Обновляем цены и даты из конфигурации
-    updatePricesAndDates();
+    setTimeout(() => {
+        updatePricesAndDates();
+    }, 100); // Небольшая задержка для гарантии загрузки всех элементов
     
     initCarousel();
     animateOnScroll();
@@ -574,6 +587,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// Дополнительная проверка после полной загрузки страницы
+window.addEventListener('load', function() {
+    updatePricesAndDates();
+});
+
+// Глобальная функция для отладки (можно вызвать из консоли)
+window.updatePricesAndDates = updatePricesAndDates;
+window.PROMO_CONFIG = PROMO_CONFIG;
 
 // Функция для показа уведомлений
 function showNotification(message, type = 'success') {
