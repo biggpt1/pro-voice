@@ -25,7 +25,7 @@ body {
 }
 
 .section-blue {
-    background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
+    background: linear-gradient(135deg, rgba(30, 64, 175, 0.8) 0%, rgba(29, 78, 216, 0.8) 100%);
     padding: 80px 0;
     color: white;
 }
@@ -80,7 +80,7 @@ body {
 .hero-title {
     font-size: 4rem;
     font-weight: 700;
-    color: #1e40af;
+    color: rgba(30, 64, 175, 0.85);
     margin-bottom: 20px;
     letter-spacing: -2px;
 }
@@ -135,7 +135,7 @@ body {
 .price-value {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #1e40af;
+    color: rgba(30, 64, 175, 0.85);
 }
 
 .price-old {
@@ -151,23 +151,23 @@ body {
 }
 
 .social-link {
-    color: #1e40af;
+    color: rgba(30, 64, 175, 0.8);
     text-decoration: none;
     font-weight: 500;
     padding: 8px 16px;
-    border: 2px solid #1e40af;
+    border: 2px solid rgba(30, 64, 175, 0.8);
     border-radius: 8px;
     transition: all 0.3s ease;
 }
 
 .social-link:hover {
-    background: #1e40af;
+    background: rgba(30, 64, 175, 0.8);
     color: white;
 }
 
 /* Кнопки */
 .cta-button {
-    background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
+    background: linear-gradient(135deg, rgba(30, 64, 175, 0.85) 0%, rgba(29, 78, 216, 0.85) 100%);
     color: white;
     border: none;
     padding: 18px 40px;
@@ -176,7 +176,7 @@ body {
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 8px 25px rgba(30, 64, 175, 0.3);
+    box-shadow: 0 8px 25px rgba(30, 64, 175, 0.25);
 }
 
 .cta-button:hover {
@@ -191,8 +191,8 @@ body {
 
 .cta-button-secondary {
     background: transparent;
-    color: #1e40af;
-    border: 2px solid #1e40af;
+    color: rgba(30, 64, 175, 0.8);
+    border: 2px solid rgba(30, 64, 175, 0.8);
     padding: 16px 35px;
     font-size: 1rem;
     font-weight: 600;
@@ -206,7 +206,7 @@ body {
 }
 
 .cta-button-secondary:hover {
-    background: #1e40af;
+    background: rgba(30, 64, 175, 0.8);
     color: white;
 }
 
@@ -217,7 +217,7 @@ body {
 
 .section-blue .cta-button-secondary:hover {
     background: white;
-    color: #1e40af;
+    color: rgba(30, 64, 175, 0.8);
 }
 
 /* Блок "За 1 месяц получишь" */
@@ -418,7 +418,7 @@ body {
     background: #f8fafc;
     padding: 30px;
     border-radius: 16px;
-    border-left: 4px solid #1e40af;
+    border-left: 4px solid rgba(30, 64, 175, 0.8);
     transition: transform 0.3s ease;
 }
 
@@ -428,7 +428,7 @@ body {
 }
 
 .program-week {
-    background: #1e40af;
+    background: rgba(30, 64, 175, 0.8);
     color: white;
     padding: 8px 16px;
     border-radius: 20px;
@@ -655,7 +655,7 @@ body {
 .tariff-button {
     width: 100%;
     background: white;
-    color: #1e40af;
+    color: rgba(30, 64, 175, 0.8);
     border: none;
     padding: 16px;
     font-size: 1.1rem;
@@ -781,7 +781,7 @@ body {
 
 .bonus-card:hover {
     transform: translateY(-5px);
-    border-color: #1e40af;
+    border-color: rgba(30, 64, 175, 0.8);
     box-shadow: 0 10px 30px rgba(30, 64, 175, 0.1);
 }
 
@@ -929,12 +929,12 @@ body {
 .form-group input:focus,
 .form-group select:focus {
     outline: none;
-    border-color: #1e40af;
+    border-color: rgba(30, 64, 175, 0.8);
 }
 
 .submit-button {
     width: 100%;
-    background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
+    background: linear-gradient(135deg, rgba(30, 64, 175, 0.85) 0%, rgba(29, 78, 216, 0.85) 100%);
     color: white;
     border: none;
     padding: 16px;
