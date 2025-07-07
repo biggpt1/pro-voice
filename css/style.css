@@ -580,6 +580,9 @@ body {
 .tariff-card.popular {
     border: 2px solid #fbbf24;
     transform: scale(1.05);
+    transform-origin: center;
+    margin: 0 auto;
+    justify-self: center;
 }
 
 .popular-badge {
